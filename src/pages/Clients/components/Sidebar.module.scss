@@ -1,0 +1,85 @@
+@keyframes deleteShow {
+  from {right: 0; color: rgba(0,0,0, 0.0);}
+  to {right: 8px; color: rgba(0,0,0, 1);}
+}
+
+@keyframes selectedItem {
+  from { background: rgb(255, 255, 255);}
+  to {background: rgba(230, 247, 255, 1);}
+}
+
+.sidebar__container {
+  display: flex;
+
+  a {
+    color: black;
+    width: 90%;
+    padding: 20px 23px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .delete__client {
+    margin: 11px 9px;
+    text-decoration: none;
+    display: none;
+  }
+
+  &:hover {
+    background: rgba(230, 247, 255, 1);
+    animation-duration: 0.3s;
+    animation-name: selectedItem;
+
+    a {
+      color: #1967d2;
+    }
+
+    .delete__client {
+      display: block;
+      position: absolute;
+      right: 8px;
+      color: black;
+      animation-duration: 0.3s;
+      animation-name: deleteShow;
+
+
+      &:hover {
+        cursor: pointer;
+        color: #1967d2;
+      }
+
+    }
+
+  }
+
+}
+
+.sidebar__container .active_sidebar {
+  background: #E6F7FF;
+  width: 100%;
+  position: relative;
+  margin: 0;
+  color: #1967d2;
+  border-right: 3px solid rgb(24, 144, 255);
+}
+
+.sidebar_footer {
+  width: 190px;
+  position: fixed;
+  bottom: 15px;
+
+  .conditions {
+    margin-left: 5px;
+    font-size: 11.5px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #C4C4C4;
+  }
+
+  .helpDesk {
+    margin-left: 5px;
+    font-size: 11.5px;
+    padding-top: 12px;
+  }
+
+}

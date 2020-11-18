@@ -1,0 +1,106 @@
+.item_image {
+  min-height: 86%;
+  height: 80vh;
+  overflow-y: auto;
+  width: auto;
+
+  .footerLoader {
+    position: absolute;
+    bottom: 100px;
+    left: 51%;
+  }
+
+}
+
+.cards {
+  display: grid;
+  grid-gap: 0;
+  grid-template-columns: repeat(auto-fill,minmax(300px,1fr));
+  transition: .3s;
+  max-height: 600px;
+
+  .imageCard_checked {
+    outline: 2px solid #1890ff !important;
+    outline-offset: -2px;
+
+    .hoverImage {
+      opacity: 0.4 !important;
+      span {
+        display: none;
+      }
+    }
+  }
+
+  .selectedImage {
+    transform: translateZ(0) scale3d(0.9, 0.9, 1);
+    transition: transform .135s cubic-bezier(0.0,0.0,0.2,1), opacity linear .15s;
+  }
+
+  .imageCard {
+    display: inline-block;
+    position: relative;
+    width: 300px;
+    //height: 270px;
+    margin: 10px 0;
+    padding: 0;
+    text-align: center;
+    border: 2px solid #f0f0f0;
+    box-shadow: 0 0 1px 0 rgba(0, 0, 0, 0.1);
+    transition:  30ms;
+
+    img {
+      height: 100%;
+      max-height: 200px;
+      max-width: 100%;
+    }
+    p {
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+      margin: 0;
+      padding: 24px;
+    }
+    &:hover {
+      .hoverImage {
+        opacity: 1 !important;
+        span {
+          display: block;
+        }
+      }
+    }
+    .clickHandlerImage {
+      position: absolute;
+      top: 0;
+      right: 0;
+      left: 0;
+      bottom: 0;
+    }
+    .hoverImage {
+      //display: none;
+      opacity: 0;
+      position: absolute;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      top: 0;
+      left: 0;
+      color: rgba(255, 255, 255, 0.7);
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, .7);
+      transition: all .3s;
+      span[role=img] {
+        cursor: pointer;
+        z-index: 100;
+        svg {
+          width: 20px;
+          height: 20px;
+          margin: 0 7px;
+        }
+        &:hover {
+          color: rgba(255, 255, 255, 1);
+        }
+      }
+    }
+  }
+}
