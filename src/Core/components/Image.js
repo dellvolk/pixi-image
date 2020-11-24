@@ -213,39 +213,16 @@ export default class Image {
     }
 
     updateSquarePosition = (sprite, id) => {
-        // const {x, y} = this.squares[0];
 
         const {width, height} = sprite;
 
         const x = 0,
             y = 0;
-        // sprite.anchor.set(0, 0);
-        // const {x, y} = sprite.position;
-        // const prevAnchor = sprite.anchor;
-        // console.log({
-        //     x: prevAnchor.x,
-        //     y: prevAnchor.y
-        // })
-        // this.helpers.anchor.set(1);
-
-        console.log({
-            x: this.helpers.anchor,
-            y: this.helpers.height,
-            // x: sprite.position.x,
-            // y: sprite.position.y,
-            // width: sprite.width,
-            // height: sprite.height
-        })
 
         // console.log({
-        //     x: sprite.position.x,
-        //     y: sprite.position.y
+        //     x: this.helpers.anchor,
+        //     y: this.helpers.height,
         // })
-        // sprite.anchor.set(1, 1);
-        // sprite.anchor.set(0, 0);
-        // const {x, y} = sprite.position;
-        // const {width, height} = sprite;
-        // sprite.anchor.set(prevAnchor.x, prevAnchor.y);
 
         const getPos = (index) => {
             switch (index) {
@@ -269,11 +246,7 @@ export default class Image {
                     return {x, y};
             }
         }
-        // console.log({
-        //     x: sprite.position.x,
-        //     y: sprite.position.y
-        // })
-        // this.squares[0].position.set(sprite.position.x, sprite.position.y);
+
         this.squares.forEach((i, index) => {
             if (index !== id) {
                 const pos = getPos(index);
