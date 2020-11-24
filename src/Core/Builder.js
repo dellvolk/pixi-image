@@ -1,4 +1,5 @@
 import * as PIXI from "pixi.js";
+import Image from "./components/Image";
 
 export default class Builder {
     constructor(ref) {
@@ -6,6 +7,7 @@ export default class Builder {
             backgroundColor: 0xffffff,
             preserveDrawingBuffer: true
         });
+        console.log("++++")
         ref.current.appendChild(this.app.view);
     }
 
@@ -35,54 +37,42 @@ export default class Builder {
             square.position.set(x, y);
             square.width = 10;
             square.height = 10;
-            graphics.beginFill(0xFFFFFF, 0.5);
+            graphics.beginFill(0xFF0000, 1);
             graphics.drawRect(-7, -7, 16, 16);
             graphics.endFill();
             square.addChild(graphics);
             square.isMask = true;
-            console.log(square);
+            // console.log(square);
             return square;
         }
 
-        // const squares = [
-        //     createSquare(w - 150, h - 150),
-        //     createSquare(w + 150, h - 150),
-        //     createSquare(w + 150, h + 150),
-        //     createSquare(w - 150, h + 150),
-        // ];
-
         // const quad = squares.map((s) => s.position);
         let squares;
-        // PIXI.SCALE_MODES.DEFAULT = PIXI.SCALE_MODES.NEAREST;
+        PIXI.SCALE_MODES.DEFAULT = PIXI.SCALE_MODES.NEAREST;
         const createTransform = obj => {
-            console.log(obj.position);
-            console.log(obj.width);
-            const {x, y, width, height} = obj;
+            console.log(obj.position.x);
+            // console.log(obj.width);
+            const {x, y} = obj.position;
+            const {width, height} = obj;
+            // const data = obj.getLocalPosition(this.app.stage);
             console.log("x", x);
             console.log("y", y);
-            console.log("w", width);
-            console.log("h", height);
-            // app.stage.addChild(createSquare(x, y))
-            // app.stage.addChild(createSquare(x+width, y))
-            // app.stage.addChild(createSquare(x, y+height))
-            // app.stage.addChild(createSquare(x+width, y+height))
+            // console.log("w", width);
+            // console.log("h", height);
+
             squares = [
-                createSquare(0, 0),
-                createSquare(width / 2, 0),
-                createSquare(width, 0),
-                createSquare(width, height / 2),
-                createSquare(0, height),
-                createSquare(0, height / 2),
-                createSquare(width, height),
-                createSquare(width / 2, height),
+                createSquare(x, y),
+                createSquare(x + width / 2, y),
+                createSquare(width + x, y),
+                createSquare(width + x, height / 2 + y),
+                createSquare(x, height + y),
+                createSquare(x, height / 2 + y),
+                createSquare(width + x, height + y),
+                createSquare(x + width / 2, height + y),
             ];
 
             squares.forEach((s) => {
-                obj.addChild(s);
-            });
-
-
-            squares.forEach((s) => {
+                this.app.stage.addChild(s);
                 addInteraction(s);
             });
         };
@@ -91,25 +81,17 @@ export default class Builder {
 
         function createBunny(x, y) {
             // create our little bunny friend..
-            const bunny = new PIXI.Sprite(texture);
-
-            bunny.interactive = true;
-
-            bunny.buttonMode = true;
-
-            // bunny.anchor.set(0.5);
-
-            // bunny
-            //     .on('pointerdown', onDragStart)
-            //     .on('pointerup', onDragEnd)
-            //     .on('pointerupoutside', onDragEnd)
-            //     .on('pointermove', onDragMove);
-
-            // scale params
-            createTransform(bunny);
+            // const bunny = new Editor.Image(texture).image;
+            const image = new Image(texture);
+            console.log(image);
+            const bunny = image.container;
 
             bunny.x = x;
             bunny.y = y;
+
+            // createTransform(bunny);
+
+            // console.log(bunny);
 
             // add it to the stage
             layer.addChild(bunny);
@@ -152,30 +134,29 @@ export default class Builder {
 
         function onDragMove_(event) {
             const obj = event.currentTarget;
-            if (!obj.dragging) return;
-            // console.log(obj.dragging)
             const data = obj.dragData; // it can be different pointer!
-            if (obj.dragging === 1) {
-                // click or drag?
-                if (Math.abs(data.global.x - obj.dragGlobalStart.x)
-                    + Math.abs(data.global.y - obj.dragGlobalStart.y) >= 3) {
-                    // DRAG
-                    obj.dragging = 2;
-                }
-            }
-            if (obj.dragging === 2) {
-                const dragPointerEnd = data.getLocalPosition(obj.parent);
-                // DRAG
-                let x = obj.dragObjStart.x + (dragPointerEnd.x - obj.dragPointerStart.x);
-                let y = obj.dragObjStart.y + (dragPointerEnd.y - obj.dragPointerStart.y);
-                // console.log({x, y})
-                console.log(dragPointerEnd);
-                // sprite.resize(dragPointerEnd.x, dragPointerEnd.y);
-                sprite.width = dragPointerEnd.x;
-                sprite.height = dragPointerEnd.y;
-                // obj.parent.anchor.setTo(0.5, 0.5);
-                obj.position.set(x, y);
-            }
+            if (!obj.dragging) return;
+            const dragPointerEnd = data.getLocalPosition(obj.parent);
+            // sprite.width = dragPointerEnd.x;
+
+            let x = obj.dragObjStart.x + (dragPointerEnd.x - obj.dragPointerStart.x);
+            let y = obj.dragObjStart.y + (dragPointerEnd.y - obj.dragPointerStart.y);
+            obj.position.set(x, y);
+
+            sprite.height = dragPointerEnd.y - sprite.position.y;
+            sprite.width = dragPointerEnd.x - sprite.position.x;
+
+            // sprite.destroy({
+            //     children: true,
+            //     texture: true,
+            //     baseTexture: true,
+            // });
+
+            // sprite.scale.set(dragPointerEnd.x, dragPointerEnd.y);
+            console.log({
+                x: dragPointerEnd.x,
+                y: dragPointerEnd.y,
+            })
         }
 
         function onDragStart(event) {
